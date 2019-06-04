@@ -1,3 +1,5 @@
+import { isObject } from './utils'
+
 const defaultOptios = {
   throttle: 200,
   loading: null,
@@ -31,8 +33,30 @@ class LazyLoad {
     console.log(first.getBoundingClientRect())
   }
 
-  addSubject(sub) {
-    this.subjects.push(sub)
+  add(el, binding) {
+    console.log(el, 'bind dir')
+    let config = binding.value
+    if (!isObject(config)) {
+       config = {
+        src: config
+      }
+    }
+    config.loading = this.options.loading
+    config.error = this.options.error
+    config.preLoad = this.options.preLoad
+
+    this.subjects.push({
+      el,
+      config
+    })
+  }
+
+  update(el) {
+    console.log(el, 'update dir')
+  }
+
+  unbind(el) {
+    console.log(el, 'unbind dir')
   }
 
   removeSubject(sub) {
@@ -42,3 +66,5 @@ class LazyLoad {
     }
   }
 }
+
+export default LazyLoad
